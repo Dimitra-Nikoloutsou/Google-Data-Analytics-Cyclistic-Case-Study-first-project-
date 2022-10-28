@@ -71,3 +71,40 @@ So I have to fix latitude and longitude columns (length and format)
 
 =IFS(LEN(K2)=4;K2&”00000";LEN(K2)=5;K2&”0000";LEN(K2)=6;K2&”000";LEN(K2)=7;K2&”00";LEN(K2)=8;K2&”0";LEN(K2)=9;K2;LEN(K2)>9;LEFT(K2;9)) =IF(ISNUMBER(SEARCH(“.”;L2));LEFT(L2;2);LEFT(L2;2))&”.”&IF(ISNUMBER(SEARCH(“.”;L2));MID(L2;4;6);MID(L2;3;6))
 
+
+<h3>4.Analyse</h3>
+
+View <a href="https://github.com/Dimitra-Nikoloutsou/Google_Data_Analytics_Cyclistic_Case_Study_first-project/blob/4b4eb68bcf2dc94975581e240557d131429ecab9/SQL%20File">SQL File</a>
+
+I exported it in .txt file and imported it in Tableau Public.
+
+<h3>5.Share</h3>
+
+<a href="https://public.tableau.com/app/profile/dimitra.nikoloutsou/viz/BikeData2021-GoogleDataAnalytics/Story1">Tableau link</a> (Interactive Dashboard)
+
+![Story 1](https://user-images.githubusercontent.com/114480002/198726863-3a131a48-e390-4fd7-88dd-bccedd3490ae.png)
+
+<h1>INSIGHTS</h1>
+
+· There are more members than casual riders.
+
+· However casuals ride longer than members.
+
+· Casuals rent more bikes at the weekends while members use bikes all weekdays. The peak of bike share program is in summer season (June, July, August). For that reason, we can say that casuals are visitors.
+
+· Classic bike is the most popular bike for both customers while members rarely use docked bike.
+
+
+<h3>.Act</h3>
+
+The marketing analyst team should advertise the campaign before summer season.
+
+In order to convert casual riders into annual members, the company should promote special prices for new members.
+
+Also the company could promote special offers for members making a rewards points system with special deals in local companies.
+
+The marketing team should also consider the possibility of creating another type of membership such as weekend pass.
+
+Another approach would be to raise the price of single-ride or full-day passes and make special deals for new members. From the analysis appears that the average time of casual riders is greater than the average time of members as well as the mean time. That means that they ride longer than members. That way casuals will realise that buying the annual membership is more profitable than buying day passes.
+
+
