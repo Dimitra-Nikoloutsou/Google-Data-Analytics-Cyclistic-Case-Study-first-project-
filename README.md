@@ -74,7 +74,7 @@ So I have to fix latitude and longitude columns (length and format)
 
 <h3>4.Analyse</h3>
 
-View <a href="https://github.com/Dimitra-Nikoloutsou/Google_Data_Analytics_Cyclistic_Case_Study_first-project/blob/4b4eb68bcf2dc94975581e240557d131429ecab9/SQL%20File">SQL File</a>
+View <a href="https://github.com/Dimitra-Nikoloutsou/Google_Data_Analytics_Cyclistic_Case_Study_first-project/blob/main/SQL%20File">SQL File</a>
 
 I exported it in .txt file and imported it in Tableau Public.
 
