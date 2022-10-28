@@ -107,5 +107,5 @@ The marketing team should also consider the possibility of creating another type
 
 Another approach would be to raise the price of single-ride or full-day passes and make special deals for new members. From the analysis appears that the average time of casual riders is greater than the average time of members as well as the mean time. That means that they ride longer than members. That way casuals will realise that buying the annual membership is more profitable than buying day passes.
 
-Published in <a href="https://medium.com/@dimitra.nikoloutsou/google-data-analytics-cyclistic-case-study-e164d1f62add">Medium</a>
+<b>Published in <a href="https://medium.com/@dimitra.nikoloutsou/google-data-analytics-cyclistic-case-study-e164d1f62add">Medium</a></b>
 
