@@ -1,0 +1,230 @@
+--Create tables for each month and import data.
+CREATE TABLE january_2021 (
+ride_id VARCHAR(50),
+rideable_type VARCHAR(50),
+started_at TIMESTAMP,
+ended_at TIMESTAMP,
+ride_length TIME,
+day_of_week VARCHAR(50),
+start_station_name VARCHAR(255),
+start_station_id VARCHAR(255),
+end_station_name VARCHAR(255),
+end_station_id VARCHAR(255),
+start_lat VARCHAR(255),
+start_lng VARCHAR(255),
+end_lat VARCHAR(255),
+end_lng VARCHAR(255),
+member_casual VARCHAR(50)
+);
+
+SELECT *
+FROM january_2021
+;
+
+-- Cleaning Process:
+
+DELETE FROM
+january_2021
+WHERE start_station_name IS NULL;
+
+DELETE FROM
+january_2021
+WHERE end_station_name IS NULL;
+
+DELETE FROM
+FROM january_2021
+WHERE ride_id IS NULL;
+
+DELETE FROM
+FROM january_2021
+WHERE start_station_id is null or end_station_id IS NULL;
+
+SELECT MAX(ride_length)
+FROM january_2021;
+
+SELECT *
+FROM january_2021
+WHERE ride_length > ‘3:00:00’
+ORDER BY ride_length DESC;
+
+DELETE FROM january_2021
+WHERE ride_length > ‘3:00:00’;
+
+SELECT *
+FROM january_2021
+ORDER BY ride_length DESC;
+
+-- Add two extra columns: seconds and extracted date (Y:M:D)
+
+ALTER TABLE january_2021
+ADD COLUMN seconds NUMERIC;
+
+UPDATE january_2021 SET seconds=round(EXTRACT(EPOCH FROM ride_length));
+
+SELECT * FROM january_2021
+ORDER BY seconds DESC;
+
+ALTER TABLE january_2021
+ADD COLUMN start_time DATE;
+
+UPDATE january_2021 SET start_time=DATE(started_at);
+
+ALTER TABLE january_2021
+ALTER COLUMN start_lat type DECIMAL USING CAST(start_lat AS DECIMAL);
+
+ALTER TABLE january_2021
+ALTER COLUMN start_lng type DECIMAL USING CAST(start_lng AS DECIMAL);
+
+ALTER TABLE january_2021
+ALTER COLUMN end_lat type DECIMAL USING CAST(end_lat AS DECIMAL);
+
+ALTER TABLE january_2021
+ALTER COLUMN end_lng type DECIMAL USING CAST(end_lng AS DECIMAL);
+
+-- CHECK
+
+SELECT * FROM january_2021
+ORDER BY started_at;
+
+Repeat steps for all months.
+
+-- Now that data is cleaned all tables will be merged in one.
+
+CREATE TABLE bike_data_2021
+AS SELECT *
+FROM january_2021
+UNION ALL
+SELECT *
+FROM february_2021
+UNION ALL
+SELECT *
+FROM march_2021
+UNION ALL
+SELECT *
+FROM april_2021
+UNION ALL
+SELECT *
+FROM may_2021
+UNION ALL
+SELECT *
+FROM june_2021
+UNION ALL
+SELECT *
+FROMjuly_2021
+UNION ALL
+SELECT *
+FROM august_2021
+UNION ALL
+SELECT *
+FROM september_2021
+UNION ALL
+SELECT *
+FROM october_2021
+UNION ALL
+SELECT *
+FROM november_2021
+UNION ALL
+SELECT *
+FROM december_2021;
+
+SELECT *
+FROM bike_data_2021;
+
+-- Analyze
+
+SELECT COUNT(*)
+FROM bike_data_2021;
+
+-- Number of users
+SELECT COUNT(*), member_casual
+FROM bike_data_2021
+GROUP BY member_casual;
+
+--Avg seconds per type of user
+SELECT ROUND(AVG(seconds)) AS avg_sec, member_casual
+FROM bike_data_2021
+GROUP BY member_casual;
+
+--Mean of seconds per type of user
+SELECT
+PERCENTILE_CONT(0.5)
+WITHIN GROUP (ORDER BY seconds),
+member_casual
+FROM bike_data_2021
+GROUP BY member_casual;
+
+--Avg seconds per day of week for each type of user
+SELECT ROUND(AVG(seconds)) AS avg_sec,
+day_of_week,
+member_casual
+FROM bike_data_2021
+WHERE member_casual = ‘member’
+GROUP BY member_casual, day_of_week
+ORDER BY avg_sec DESC;
+
+SELECT ROUND(AVG(seconds)) AS avg_sec,
+day_of_week,
+member_casual
+FROM bike_data_2021
+WHERE member_casual = ‘casual’
+GROUP BY member_casual, day_of_week
+ORDER BY avg_sec DESC;
+
+--Avg seconds per month for each type of user
+SELECT ROUND(AVG(seconds)) AS avg_sec,
+EXTRACT(MONTH FROM start_time) AS month, member_casual
+FROM bike_data_2021
+WHERE member_casual = ‘member’
+GROUP BY month, member_casual
+ORDER BY avg_sec DESC;
+
+SELECT ROUND(AVG(seconds)) AS avg_sec,
+EXTRACT(MONTH FROM start_time) AS month, member_casual
+FROM bike_data_2021
+WHERE member_casual = ‘casual’
+GROUP BY month, member_casual
+ORDER BY avg_sec DESC;
+
+--Total seconds per month for each type of user
+SELECT SUM(seconds) AS sum_sec,
+EXTRACT(MONTH FROM start_time) AS month, member_casual
+FROM bike_data_2021
+WHERE member_casual = ‘member’
+GROUP BY month, member_casual
+ORDER BY sum_sec DESC;
+
+SELECT SUM(seconds) AS sum_sec,
+EXTRACT(MONTH FROM start_time) AS month, member_casual
+FROM bike_data_2021
+WHERE member_casual = ‘casual’
+GROUP BY month, member_casual
+ORDER BY sum_sec DESC;
+
+--Avg seconds per type of bike for each type of user
+SELECT ROUND(AVG(seconds)) AS avg_sec,
+member_casual, rideable_type
+FROM bike_data_2021
+WHERE member_casual = ‘member’
+GROUP BY member_casual, rideable_type;
+
+SELECT ROUND(AVG(seconds)) AS avg_sec,
+member_casual, rideable_type
+FROM bike_data_2021
+WHERE member_casual = ‘casual’
+GROUP BY member_casual, rideable_type;
+
+--Total seconds per type of bike for each type of user
+SELECT SUM(seconds) AS sum_sec,
+member_casual, rideable_type
+FROM bike_data_2021
+WHERE member_casual = ‘member’
+GROUP BY member_casual, rideable_type;
+
+SELECT SUM(seconds) AS sum_sec,
+member_casual, rideable_type
+FROM bike_data_2021
+WHERE member_casual = ‘casual’
+GROUP BY member_casual, rideable_type;
+
+
+
