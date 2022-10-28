@@ -95,7 +95,7 @@ I exported it in .txt file and imported it in Tableau Public.
 · Classic bike is the most popular bike for both customers while members rarely use docked bike.
 
 
-<h3>.Act</h3>
+<h3>6.Act</h3>
 
 The marketing analyst team should advertise the campaign before summer season.
 
